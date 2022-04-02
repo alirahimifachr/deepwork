@@ -18,9 +18,14 @@ const Column = () => {
     const [iProject, setiProject] = useState('');
 
     const getData = () => {
-        axios.get('http://127.0.0.1:3001/api/backend/').then(function (response) {
-            console.log(response);
-            // setDatas(response.data);
+        axios.get('http://127.0.0.1:3001/api/backend/?format=json').then(function (response) {
+            console.log(response.data);
+        }).catch(function (error) {
+            console.log(error);
+        });
+
+        axios.get('http://127.0.0.1:3001/api/arr/?format=json').then(function (response) {
+            console.log(response.data);
         }).catch(function (error) {
             console.log(error);
         });

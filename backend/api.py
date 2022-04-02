@@ -1,12 +1,19 @@
-from backend.models import Deepwork
-from backend.models import TimeTracker
+from backend.models import Deepwork, Arr
 from rest_framework import viewsets, permissions
-from .serializers import DeepworkSerializer
+from .serializers import DeepworkSerializer, ArrSerializer
 
 
-class BackendViewSet(viewsets.ModelViewSet):
+class DeepworkViewSet(viewsets.ModelViewSet):
     queryset = Deepwork.objects.all()
     permission_classes = [
         permissions.AllowAny
     ]
     serializer_class = DeepworkSerializer
+
+
+class ArrViewSet(viewsets.ModelViewSet):
+    queryset = Arr.objects.all()
+    permission_classes = [
+        permissions.AllowAny
+    ]
+    serializer_class = ArrSerializer
