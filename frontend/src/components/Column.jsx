@@ -12,20 +12,25 @@ import Card from "./Card";
 const Column = () => {
     const axios = require('axios');
 
-    const [datas, setDatas] = useState(new Object());
+    const [datas, setDatas] = useState([]);
+    const [dataTasks, setDataTasks] = useState([]);
+
+
     const [open, setOpen] = useState(false);
     const [iTask, setiTask] = useState([]);
     const [iProject, setiProject] = useState('');
 
     const getData = () => {
         axios.get('http://127.0.0.1:3001/api/backend/?format=json').then(function (response) {
-            console.log(response.data);
+            // console.log(response.data);
+            setDatas(response.data);
         }).catch(function (error) {
             console.log(error);
         });
 
         axios.get('http://127.0.0.1:3001/api/arr/?format=json').then(function (response) {
-            console.log(response.data);
+            // console.log(response.data);
+            setDataTasks(response.data);
         }).catch(function (error) {
             console.log(error);
         });
@@ -77,19 +82,20 @@ const Column = () => {
                     {
                         Object.keys(datas).map((i) => {
                             return (
-                                <Box key={Object.values(datas[i].project)}>
+                                <Box key={Object.values(datas[i])}>
                                     <ListItemButton onClick={handleClickPr}>
                                         <ListItemText primary={Object.values(datas[i].project)} />
                                         {(open ? <ExpandLess /> : <ExpandMore />)}
                                     </ListItemButton>
                                     <Collapse in={open} timeout='auto' >
                                         <Box sx={{ backgroundColor: pink[800], p: 0.2, pl: 2, m: 0.3, border: 1, borderColor: "black", }}>
-                                            {Object.values(datas[i].task).map((j) => {
+                                            {Object.keys(dataTasks).map((j) => {
                                                 return (
-                                                    <Card id={i.toString() + '  ' + j.toString()}
-                                                        draggable='true' key={Object.values(datas[i].project) + '  ' + j.toString()}>
-                                                        <ListItemText primary={j} secondary={Object.values(datas[i].project)} />
-                                                    </Card>
+                                                    ((datas[i].id === dataTasks[j].parent) ? (
+                                                        <Card id={i.toString() + ' ' + j.toString()}
+                                                            draggable='true' key={Object.values(datas[i].project) + '' + j.toString()}>
+                                                            <ListItemText primary={dataTasks[j].task} secondary={Object.values(datas[i].project)} />
+                                                        </Card>) : console.log())
                                                 )
                                             })}
                                         </Box>
