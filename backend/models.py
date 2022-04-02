@@ -5,6 +5,7 @@ from django.forms import BooleanField
 
 class Deepwork(models.Model):
     project = models.CharField(max_length=100)
+    open = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['project']

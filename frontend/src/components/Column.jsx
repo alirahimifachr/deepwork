@@ -14,11 +14,10 @@ const Column = () => {
 
     const [datas, setDatas] = useState([]);
     const [dataTasks, setDataTasks] = useState([]);
-
-
-    const [open, setOpen] = useState(false);
-    const [iTask, setiTask] = useState([]);
     const [iProject, setiProject] = useState('');
+
+    const [iTask, setiTask] = useState([]);
+
 
     const getData = () => {
         axios.get('http://127.0.0.1:3001/api/backend/?format=json').then(function (response) {
@@ -53,6 +52,22 @@ const Column = () => {
 
     };
 
+    const setCollapse = (i, pr, condition) => {
+        const axios = require('axios');
+        axios.put(`http://127.0.0.1:3001/api/backend/${i}/`, {
+            id: i,
+            project: pr,
+            open: !condition,
+        }).then(resp => {
+            console.log(resp.data);
+        }).catch(error => {
+            console.log(error);
+        }).then(function () {
+            getData();
+            setiProject('');
+        });
+    }
+
     const deleteProject = () => {
 
     }
@@ -63,10 +78,6 @@ const Column = () => {
 
     const deleteTask = () => {
 
-    }
-
-    const handleClickPr = () => {
-        setOpen(!open);
     }
 
 
@@ -81,11 +92,11 @@ const Column = () => {
                         Object.keys(datas).map((i) => {
                             return (
                                 <Box key={Object.values(datas[i])}>
-                                    <ListItemButton onClick={handleClickPr}>
+                                    <ListItemButton onClick={() => setCollapse(datas[i].id, datas[i].project, datas[i].open)}>
                                         <ListItemText primary={Object.values(datas[i].project)} />
-                                        {(open ? <ExpandLess /> : <ExpandMore />)}
+                                        {(datas[i].open ? <ExpandLess /> : <ExpandMore />)}
                                     </ListItemButton>
-                                    <Collapse in={open} timeout='auto' >
+                                    <Collapse in={datas[i].open} timeout='auto' >
                                         <Box sx={{ backgroundColor: pink[800], p: 0.2, pl: 2, m: 0.3, border: 1, borderColor: "black", }}>
                                             {Object.keys(dataTasks).map((j) => {
                                                 return (
@@ -101,7 +112,7 @@ const Column = () => {
                                             <TextField label="Add Task" color='warning' size="small" type='text' sx={{ m: 1 }}
                                                 value={iTask} onChange={(e) => setiTask(e.target.value)}>
                                             </TextField>
-                                            <Button sx={{ m: 1 }} size='large' color="warning" onClick={() => putTask(i, iTask)}> <AddIcon /></Button>
+                                            <Button sx={{ m: 1 }} size='large' color="warning" onClick={console.log()}> <AddIcon /></Button>
                                         </Box>
                                     </Collapse>
                                 </Box>
