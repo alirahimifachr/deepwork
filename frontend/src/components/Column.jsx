@@ -41,9 +41,7 @@ const Column = () => {
         console.log(x);
         const axios = require('axios');
         axios.post('http://127.0.0.1:3001/api/backend/', {
-            id: x,
             project: obj,
-            task: []
         }).then(resp => {
             console.log(resp.data);
         }).catch(error => {
