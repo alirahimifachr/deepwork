@@ -5,6 +5,7 @@ import { blueGrey, deepOrange, grey, pink, teal } from "@mui/material/colors";
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Board from "./Board";
 import Card from "./Card";
 
@@ -60,13 +61,23 @@ const Column = () => {
     };
 
 
-    const deleteProject = () => {
-
+    const deleteProject = (id) => {
+        axios.delete(`http://localhost:3001/api/backend/${id}/`)
+            .then(resp => {
+                getData();
+            }).catch(error => {
+                console.log(error);
+            });
     };
 
 
-    const deleteTask = () => {
-
+    const deleteTask = (id) => {
+        axios.delete(`http://localhost:3001/api/arr/${id}/`)
+            .then(resp => {
+                getData();
+            }).catch(error => {
+                console.log(error);
+            });
     };
 
 
@@ -88,15 +99,19 @@ const Column = () => {
                                             {Object.keys(dataTasks).map((j) => {
                                                 return (
                                                     ((datas[i].id === dataTasks[j].parent) ? (
-                                                        <Card id={i.toString() + ' ' + j.toString()}
-                                                            draggable='true' key={Object.values(datas[i].project) + '' + j.toString()}>
-                                                            <ListItemText primary={dataTasks[j].task} secondary={Object.values(datas[i].project)} />
-                                                        </Card>) : console.log())
+                                                        <Box>
+                                                            <Card id={i.toString() + ' ' + j.toString()}
+                                                                draggable='true' key={Object.values(datas[i].project) + '' + j.toString()}>
+                                                                <ListItemText primary={dataTasks[j].task} secondary={Object.values(datas[i].project)} />
+                                                            </Card>
+                                                            <Button size='small' sx={{ color: 'white' }} onClick={() => deleteTask(dataTasks[j].id)}><DeleteIcon /></Button>
+                                                        </Box>) : console.log())
                                                 )
                                             })}
                                         </Box>
                                         <Box>
                                             <Button sx={{ m: 1 }} color="warning" onClick={() => setOpenTextField(!openTextField)}>Add Task</Button>
+                                            <Button size='small' sx={{ color: 'white' }} onClick={() => deleteProject(datas[i].id)}><DeleteIcon /></Button>
                                             {openTextField ? <Box>
                                                 <TextField label="Add Task" color='warning' size="small" type='text' sx={{ m: 1 }}
                                                     value={iTask} onChange={(e) => setiTask(e.target.value)}>
@@ -116,7 +131,7 @@ const Column = () => {
                     <Button size='large' color="warning" onClick={() => addProject(iProject)}>
                         <AddIcon /></Button>
                 </Box>
-            </Box>
+            </Box >
 
             <Box sx={{ display: "inline", border: 2, flexGrow: 1, p: 1, m: 0.2, backgroundColor: deepOrange[300] }}>
                 <Typography variant="h6">Tasks</Typography>
@@ -136,7 +151,7 @@ const Column = () => {
                     <button onClick={getData}>data</button>
                 </Board>
             </Box>
-        </Box>
+        </Box >
     )
 };
 
