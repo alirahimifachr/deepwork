@@ -15,8 +15,8 @@ const Column = () => {
     const [datas, setDatas] = useState([]);
     const [dataTasks, setDataTasks] = useState([]);
     const [iProject, setiProject] = useState('');
-
-    const [iTask, setiTask] = useState([]);
+    const [openTextField, setOpenTextField] = useState(false);
+    const [iTask, setiTask] = useState('');
 
 
     const getData = () => {
@@ -37,12 +37,10 @@ const Column = () => {
 
     const addProject = (obj) => {
         const x = Object.keys(datas).length;
-        console.log(x);
-        const axios = require('axios');
         axios.post('http://127.0.0.1:3001/api/backend/', {
             project: obj,
         }).then(resp => {
-            console.log(resp.data);
+            console.log(resp.data, obj);
         }).catch(error => {
             console.log(error);
         }).then(function () {
@@ -52,8 +50,21 @@ const Column = () => {
 
     };
 
+    const addTask = (i, pa, ta) => {
+        axios.post(`http://127.0.0.1:3001/api/arr/`, {
+            id: i,
+            task: ta,
+            completed: false,
+            parent: pa
+        }).catch(error => {
+            console.log(error, i, pa, ta);
+        }).then(function () {
+            getData();
+            setiTask('');
+        });
+    };
+
     const setCollapse = (i, pr, condition) => {
-        const axios = require('axios');
         axios.put(`http://127.0.0.1:3001/api/backend/${i}/`, {
             id: i,
             project: pr,
@@ -68,23 +79,19 @@ const Column = () => {
         });
     }
 
+
     const deleteProject = () => {
 
-    }
+    };
 
-    const putTask = (i, t) => {
-
-    }
 
     const deleteTask = () => {
 
-    }
+    };
 
 
     return (
-        <Box sx={{
-            height: "90vh", display: "flex", border: 4, borderColor: grey[700], overflow: "auto"
-        }}>
+        <Box sx={{ height: "90vh", display: "flex", border: 4, borderColor: grey[700], overflow: "auto" }}>
             <Box sx={{ display: "inline", border: 2, borderColor: 'black', overflow: "auto", p: 1, m: 0.2, backgroundColor: pink[900], color: "white", flexGrow: 0.5 }}>
                 <Typography variant="h6">Projects</Typography>
                 <Board id='projects'>
@@ -109,10 +116,13 @@ const Column = () => {
                                             })}
                                         </Box>
                                         <Box>
-                                            <TextField label="Add Task" color='warning' size="small" type='text' sx={{ m: 1 }}
-                                                value={iTask} onChange={(e) => setiTask(e.target.value)}>
-                                            </TextField>
-                                            <Button sx={{ m: 1 }} size='large' color="warning" onClick={console.log()}> <AddIcon /></Button>
+                                            <Button sx={{ m: 1 }} color="warning" onClick={() => setOpenTextField(!openTextField)}>Add Task</Button>
+                                            {openTextField ? <Box>
+                                                <TextField label="Add Task" color='warning' size="small" type='text' sx={{ m: 1 }}
+                                                    value={iTask} onChange={(e) => setiTask(e.target.value)}>
+                                                </TextField>
+                                                <Button sx={{ m: 1 }} size='large' color="warning" onClick={() => addTask(Math.floor(Math.random() * 999999), datas[i].id, iTask)}> <AddIcon /></Button>
+                                            </Box> : console.log(openTextField)}
                                         </Box>
                                     </Collapse>
                                 </Box>
