@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { List, Box, Typography, ListItemText, ListItemButton, Collapse } from '@mui/material';
+import { Box, Typography, ListItemText, ListItemButton, Collapse } from '@mui/material';
 import { TextField, Button } from '@mui/material';
 import { blueGrey, deepOrange, grey, pink, teal } from "@mui/material/colors";
 import ExpandLess from '@mui/icons-material/ExpandLess';
@@ -17,18 +17,16 @@ const Column = () => {
     const [iProject, setiProject] = useState('');
     const [openTextField, setOpenTextField] = useState(false);
     const [iTask, setiTask] = useState('');
-
+    const [open, setOpen] = useState(false);
 
     const getData = () => {
         axios.get('http://127.0.0.1:3001/api/backend/?format=json').then(function (response) {
-            // console.log(response.data);
             setDatas(response.data);
         }).catch(function (error) {
             console.log(error);
         });
 
         axios.get('http://127.0.0.1:3001/api/arr/?format=json').then(function (response) {
-            // console.log(response.data);
             setDataTasks(response.data);
         }).catch(function (error) {
             console.log(error);
@@ -36,18 +34,15 @@ const Column = () => {
     }
 
     const addProject = (obj) => {
-        const x = Object.keys(datas).length;
+        const x = Object.keys(datas).length + 1;
         axios.post('http://127.0.0.1:3001/api/backend/', {
             project: obj,
-        }).then(resp => {
-            console.log(resp.data, obj);
         }).catch(error => {
-            console.log(error);
+            console.log(error, obj);
         }).then(function () {
             getData();
             setiProject('');
         });
-
     };
 
     const addTask = (i, pa, ta) => {
@@ -63,21 +58,6 @@ const Column = () => {
             setiTask('');
         });
     };
-
-    const setCollapse = (i, pr, condition) => {
-        axios.put(`http://127.0.0.1:3001/api/backend/${i}/`, {
-            id: i,
-            project: pr,
-            open: !condition,
-        }).then(resp => {
-            console.log(resp.data);
-        }).catch(error => {
-            console.log(error);
-        }).then(function () {
-            getData();
-            setiProject('');
-        });
-    }
 
 
     const deleteProject = () => {
@@ -99,11 +79,11 @@ const Column = () => {
                         Object.keys(datas).map((i) => {
                             return (
                                 <Box key={Object.values(datas[i])}>
-                                    <ListItemButton onClick={() => setCollapse(datas[i].id, datas[i].project, datas[i].open)}>
+                                    <ListItemButton onClick={() => setOpen(!open)}>
                                         <ListItemText primary={Object.values(datas[i].project)} />
-                                        {(datas[i].open ? <ExpandLess /> : <ExpandMore />)}
+                                        {open ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
-                                    <Collapse in={datas[i].open} timeout='auto' >
+                                    <Collapse in={open} timeout='auto' >
                                         <Box sx={{ backgroundColor: pink[800], p: 0.2, pl: 2, m: 0.3, border: 1, borderColor: "black", }}>
                                             {Object.keys(dataTasks).map((j) => {
                                                 return (
@@ -122,7 +102,7 @@ const Column = () => {
                                                     value={iTask} onChange={(e) => setiTask(e.target.value)}>
                                                 </TextField>
                                                 <Button sx={{ m: 1 }} size='large' color="warning" onClick={() => addTask(Math.floor(Math.random() * 999999), datas[i].id, iTask)}> <AddIcon /></Button>
-                                            </Box> : console.log(openTextField)}
+                                            </Box> : false}
                                         </Box>
                                     </Collapse>
                                 </Box>
