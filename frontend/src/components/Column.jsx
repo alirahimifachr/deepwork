@@ -99,19 +99,22 @@ const Column = () => {
                                             {Object.keys(dataTasks).map((j) => {
                                                 return (
                                                     ((datas[i].id === dataTasks[j].parent) ? (
-                                                        <Box>
+                                                        <Box key={i.toString() + 'card' + j.toString() + 'i'}>
                                                             <Card id={i.toString() + ' ' + j.toString()}
                                                                 draggable='true' key={Object.values(datas[i].project) + '' + j.toString()}>
-                                                                <ListItemText primary={dataTasks[j].task} secondary={Object.values(datas[i].project)} />
+                                                                <Box sx={{ display: 'flex' }}>
+                                                                    <ListItemText primary={dataTasks[j].task} secondary={Object.values(datas[i].project)} />
+                                                                    <Button size='small' sx={{ color: 'white', ml: 10 }} onClick={() => deleteTask(dataTasks[j].id)}><DeleteIcon /></Button>
+                                                                </Box>
                                                             </Card>
-                                                            <Button size='small' sx={{ color: 'white' }} onClick={() => deleteTask(dataTasks[j].id)}><DeleteIcon /></Button>
+
                                                         </Box>) : console.log())
                                                 )
                                             })}
                                         </Box>
-                                        <Box>
-                                            <Button sx={{ m: 1 }} color="warning" onClick={() => setOpenTextField(!openTextField)}>Add Task</Button>
-                                            <Button size='small' sx={{ color: 'white' }} onClick={() => deleteProject(datas[i].id)}><DeleteIcon /></Button>
+                                        <Box >
+                                            <Button sx={{ mr: 9 }} color="warning" onClick={() => setOpenTextField(!openTextField)}>Add Task</Button>
+                                            <Button size='small' sx={{ color: 'white' }} onClick={() => deleteProject(datas[i].id)}><DeleteIcon size='small' /> {datas[i].project}</Button>
                                             {openTextField ? <Box>
                                                 <TextField label="Add Task" color='warning' size="small" type='text' sx={{ m: 1 }}
                                                     value={iTask} onChange={(e) => setiTask(e.target.value)}>
