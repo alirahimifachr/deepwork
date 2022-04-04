@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Box, Typography, ListItemText, ListItemButton, Collapse } from '@mui/material';
 import { TextField, Button } from '@mui/material';
 import { blueGrey, deepOrange, grey, pink, teal } from "@mui/material/colors";
@@ -20,6 +20,8 @@ const Column = () => {
     const [iTask, setiTask] = useState('');
     const [open, setOpen] = useState(false);
 
+
+
     const getData = () => {
         axios.get('http://127.0.0.1:3001/api/backend/?format=json').then(function (response) {
             setDatas(response.data);
@@ -35,7 +37,6 @@ const Column = () => {
     }
 
     const addProject = (obj) => {
-        const x = Object.keys(datas).length + 1;
         axios.post('http://127.0.0.1:3001/api/backend/', {
             project: obj,
         }).catch(error => {
