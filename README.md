@@ -11,7 +11,7 @@ npm i
 
 ## run
 
-cd ./deepwork
+cd ./deepwork  
 python manage.py runserver 3001  
   
 cd ./deepwork/frontend  
