@@ -3,6 +3,7 @@ import { Toolbar, Typography, Button, Box, AppBar } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import BarChartIcon from '@mui/icons-material/BarChart';
 
 
 export default function Header() {
@@ -58,10 +59,8 @@ export default function Header() {
                     <Box sx={{}}>
                         <Button sx={{ color: 'white', pl: 5 }}>{'Today: ' + day + '  Minutes'}</Button>
                     </Box>
-                    {/*day har roz mire to database save mishe va jameshon mishe statistic
-                    ye popup baz she va data ro neshon bede*/}
                     <Box sx={{}}>
-                        <Button sx={{ color: 'white', pl: 5 }}>Statistic(fromBackEnd)</Button>
+                        <Button sx={{ color: 'white', pl: 5 }}><BarChartIcon /></Button>
                     </Box>
                 </Box>
                 <Box sx={{}}>
