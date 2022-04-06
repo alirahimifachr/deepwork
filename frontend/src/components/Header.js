@@ -64,7 +64,7 @@ export default function Header() {
                     </Box>
                 </Box>
                 <Box sx={{}}>
-                    <Button color="inherit">Login</Button>
+                    <Button color="inherit">Account</Button>
                 </Box>
             </Toolbar>
         </AppBar>

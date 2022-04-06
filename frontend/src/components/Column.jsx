@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Typography, ListItemText, ListItemButton, Collapse } from '@mui/material';
 import { TextField, Button } from '@mui/material';
 import { blueGrey, deepOrange, grey, pink, teal } from "@mui/material/colors";
@@ -81,6 +81,10 @@ const Column = () => {
             });
     };
 
+    useEffect(() => {
+        getData();
+        console.log('hi');
+    }, []);
 
     return (
         <Box sx={{ height: "90vh", display: "flex", border: 4, borderColor: grey[700], overflow: "auto" }}>
@@ -152,7 +156,7 @@ const Column = () => {
             <Box sx={{ display: "inline", border: 2, borderColor: 'black', flexGrow: 1, p: 1, m: 0.2, backgroundColor: blueGrey[700], color: "white" }}>
                 <Typography variant="h6">Done</Typography>
                 <Board id='Done'>
-                    <button onClick={getData}>data</button>
+
                 </Board>
             </Box>
         </Box >

@@ -1,6 +1,6 @@
 # deepwork
 
-## status: pause
+## status: paused
 
 ## installaion
 
