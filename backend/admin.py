@@ -4,4 +4,5 @@ from . import models
 
 admin.site.register(models.Deepwork)
 admin.site.register(models.Arr)
+admin.site.register(models.Section)
 admin.site.register(models.TimeTracker)

@@ -1,6 +1,6 @@
-from backend.models import Deepwork, Arr, TimeTracker
+from backend.models import Deepwork, Arr, TimeTracker, Section
 from rest_framework import viewsets, permissions
-from .serializers import DeepworkSerializer, ArrSerializer, TimeTrackerSerializer
+from .serializers import DeepworkSerializer, ArrSerializer, TimeTrackerSerializer, SectionSerializer
 
 
 class DeepworkViewSet(viewsets.ModelViewSet):
@@ -17,6 +17,14 @@ class ArrViewSet(viewsets.ModelViewSet):
         permissions.AllowAny
     ]
     serializer_class = ArrSerializer
+
+
+class SectionViewSet(viewsets.ModelViewSet):
+    queryset = Section.objects.all()
+    permission_classes = [
+        permissions.AllowAny
+    ]
+    serializer_class = SectionSerializer
 
 
 class TimeTrackerViewSet(viewsets.ModelViewSet):

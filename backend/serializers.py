@@ -1,6 +1,6 @@
 from dataclasses import field
 from rest_framework import serializers
-from backend.models import Deepwork, Arr, TimeTracker
+from backend.models import Deepwork, Arr, TimeTracker, Section
 
 
 class DeepworkSerializer(serializers.ModelSerializer):
@@ -12,6 +12,12 @@ class DeepworkSerializer(serializers.ModelSerializer):
 class ArrSerializer(serializers.ModelSerializer):
     class Meta:
         model = Arr
+        fields = '__all__'
+
+
+class SectionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Section
         fields = '__all__'
 
 

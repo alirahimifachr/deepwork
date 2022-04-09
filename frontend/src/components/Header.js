@@ -38,7 +38,7 @@ export default function Header() {
                     DeepWork
                 </Typography>
                 <Box sx={{ display: 'flex', position: 'sticky' }}>
-                    <Box sx={{}}>
+                    <Box sx={{ pl: 5 }}>
                         {!timerOn && time === 0 && (
                             <Button sx={{ color: 'white', }} onClick={() => setTimerOn(true)}><PlayArrowIcon /></Button>
                         )}
@@ -50,21 +50,21 @@ export default function Header() {
                             <Button sx={{ color: 'white', }} onClick={() => setTimerOn(true)}><PlayArrowIcon /></Button>
                         )}
                     </Box>
-                    <Box sx={{}}>
+                    <Box sx={{ pl: 5 }}>
                         <Button sx={{ color: 'white', }}>
                             <span>{("0" + Math.floor((time / 60000) % 60)).slice(-2)}:</span>
                             <span>{("0" + Math.floor((time / 1000) % 60)).slice(-2)}</span>
                         </Button>
                     </Box>
-                    <Box sx={{}}>
-                        <Button sx={{ color: 'white', pl: 5 }}>{'Today: ' + day + '  Minutes'}</Button>
+                    <Box sx={{ pl: 5 }}>
+                        <Button sx={{ color: 'white', textTransform: 'none' }}>{'Today: ' + day + '  Minutes'}</Button>
                     </Box>
-                    <Box sx={{}}>
-                        <Button sx={{ color: 'white', pl: 5 }}><BarChartIcon /></Button>
+                    <Box sx={{ pl: 5 }}>
+                        <Button sx={{ color: 'white' }}><BarChartIcon /></Button>
                     </Box>
                 </Box>
                 <Box sx={{}}>
-                    <Button color="inherit">Account</Button>
+                    <Button sx={{ color: 'white', textTransform: 'none' }}>Account</Button>
                 </Box>
             </Toolbar>
         </AppBar>

@@ -8,10 +8,10 @@ import Footer from "./Footer";
 export default function Kanban() {
 
     return (
-        <Box sx={{ height: '100vh' }}>
-            <Header sx={{ height: '10vh' }} />
-            <Column sx={{ height: '80vh' }} />
-            <Footer sx={{ height: '10vh' }} />
+        <Box sx={{ height: '100%' }}>
+            <Header />
+            <Column />
+            <Footer />
         </Box>
     );
 }

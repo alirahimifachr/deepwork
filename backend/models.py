@@ -13,10 +13,18 @@ class Deepwork(models.Model):
         return self.project
 
 
+class Section(models.Model):
+    section = models.CharField(max_length=100)
+    parent = models.ForeignKey(Deepwork, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return (f'{self.section} > {self.parent}')
+
+
 class Arr(models.Model):
     task = models.CharField(max_length=100)
     completed = models.BooleanField(default=False)
-    parent = models.ForeignKey(Deepwork, on_delete=models.CASCADE)
+    parent = models.ForeignKey(Section, on_delete=models.CASCADE)
 
     def __str__(self):
         return (f'{self.task} > {self.parent}')
