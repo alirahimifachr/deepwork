@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Box, Typography, Collapse } from '@mui/material';
+import { Button, Box, Typography, Collapse, ListItemText } from '@mui/material';
 import { blueGrey, deepOrange, grey, pink, teal, } from "@mui/material/colors";
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -7,6 +7,7 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Board from "./Board";
 import Card from "./Card";
+import Insertion from './Insertion';
 
 
 const Column = () => {
@@ -14,6 +15,11 @@ const Column = () => {
     const [proj, setProj] = useState([]);
     const [sect, setSect] = useState([]);
     const [tas, setTas] = useState([]);
+    const [dataPopup, setDataPopup] = useState(false);
+
+    const openDataPopup = () => {
+        setDataPopup(!dataPopup);
+    };
 
 
     const getData = () => {
@@ -43,7 +49,7 @@ const Column = () => {
 
     return (
         <Box sx={{ height: "86vh", display: "flex", border: 4, borderColor: grey[700] }}>
-            <Box sx={{ display: "inline", border: 2, borderColor: 'black', flexGrow: 1, p: 1, m: 0.2, color: "white", backgroundColor: blueGrey[900], maxWidth: '30%' }}>
+            <Box sx={{ display: "inline", border: 2, borderColor: 'black', flexGrow: 1, p: 1, m: 0.2, color: "white", backgroundColor: blueGrey[900], maxWidth: '25%' }}>
                 <Typography variant="h5">Projects</Typography>
                 <Box sx={{ height: '100%', overflow: "auto" }}>
                     <Board id='projects'>
@@ -55,16 +61,16 @@ const Column = () => {
                                         {
                                             Object.keys(sect).map((s) => {
                                                 return (
-                                                    <Box key={Object.values(sect[s])} sx={{ pb: 1 }} >
-                                                        <Typography variant='body1'>{(sect[s].parent === proj[p].id) ? Object.values(sect[s].section) : console.log()}</Typography>
+                                                    <Box key={Object.values(sect[s])} sx={{ m: 1, }} >
+                                                        <Typography variant='body1'>{(sect[s].parent === proj[p].id) ? Object.values(sect[s].section) : null}</Typography>
 
                                                         {
                                                             Object.keys(tas).map((t) => {
                                                                 return (
-                                                                    <Box key={Object.values(tas[t])}>
+                                                                    <Box sx={{ m: 1 }} key={Object.values(tas[t])}>
                                                                         <Card draggable='true'
                                                                             id={p.toString() + s.toString() + t.toString()} >
-                                                                            <Typography variant='body2'>{((sect[s].parent === proj[p].id)) && (tas[t].parent === sect[s].id) ? Object.values(tas[t].task) : console.log()}</Typography>
+                                                                            <ListItemText primary={((sect[s].parent === proj[p].id)) && (tas[t].parent === sect[s].id) ? Object.values(tas[t].task) : null} secondary={((sect[s].parent === proj[p].id)) && (tas[t].parent === sect[s].id) ? (proj[p].project + ' > ' + sect[s].section) : null} />
                                                                         </Card>
                                                                     </Box>
                                                                 )
@@ -75,30 +81,31 @@ const Column = () => {
                             })
                         }
                     </Board>
-                    <Button sx={{ color: 'white', textTransform: 'none' }} >
+                    <Button onClick={() => openDataPopup()} sx={{ color: 'white', textTransform: 'none' }} >
                         <AddIcon /> Add Data
                     </Button>
+                    {dataPopup ? <Insertion /> : null}
                 </Box>
             </Box>
-            <Box sx={{ display: "inline", border: 2, borderColor: 'black', flexGrow: 1, p: 1, m: 0.2, color: "white", backgroundColor: '#5f0937' }}>
+            <Box sx={{ display: "inline", border: 2, borderColor: 'black', flexGrow: 1, p: 1, m: 0.2, color: "white", backgroundColor: '#5f0937', maxWidth: '25%' }}>
                 <Typography variant="h5">Tasks</Typography>
                 <Board id='Tasks'>
 
                 </Board>
             </Box>
-            <Box sx={{ display: "inline", border: 2, borderColor: 'black', flexGrow: 1, p: 1, m: 0.2, color: "white", backgroundColor: teal[900] }}>
+            <Box sx={{ display: "inline", border: 2, borderColor: 'black', flexGrow: 1, p: 1, m: 0.2, color: "white", backgroundColor: teal[900], maxWidth: '25%' }}>
                 <Typography variant="h5">Doing</Typography>
                 <Board id='Doing'>
 
                 </Board>
             </Box>
-            <Box sx={{ display: "inline", border: 2, borderColor: 'black', flexGrow: 1, p: 1, m: 0.2, color: "white", backgroundColor: blueGrey[700], overflow: "auto" }}>
+            <Box sx={{ display: "inline", border: 2, borderColor: 'black', flexGrow: 1, p: 1, m: 0.2, color: "white", backgroundColor: blueGrey[700], overflow: "auto", maxWidth: '25%' }}>
                 <Typography variant="h5">Done</Typography>
                 <Board id='Done'>
 
                 </Board>
             </Box>
-        </Box>);
+        </Box >);
 };
 
 export default Column;
