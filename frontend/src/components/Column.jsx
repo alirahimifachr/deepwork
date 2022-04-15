@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Button, Box, Typography, Collapse, ListItemText } from '@mui/material';
-import { blueGrey, deepOrange, grey, pink, teal, } from "@mui/material/colors";
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
+import { Button, Box, Typography, Modal, ListItemText } from '@mui/material';
+import { blueGrey, grey, teal, } from "@mui/material/colors";
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Board from "./Board";
@@ -15,11 +13,10 @@ const Column = () => {
     const [proj, setProj] = useState([]);
     const [sect, setSect] = useState([]);
     const [tas, setTas] = useState([]);
-    const [dataPopup, setDataPopup] = useState(false);
 
-    const openDataPopup = () => {
-        setDataPopup(!dataPopup);
-    };
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
 
     const getData = () => {
@@ -81,10 +78,20 @@ const Column = () => {
                             })
                         }
                     </Board>
-                    <Button onClick={() => openDataPopup()} sx={{ color: 'white', textTransform: 'none' }} >
+                    <Button onClick={handleOpen} sx={{ color: 'white', textTransform: 'none' }} >
                         <AddIcon /> Add Data
                     </Button>
-                    {dataPopup ? <Insertion /> : null}
+                    <Modal
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                    >
+                        <Box>
+                            <Insertion />
+                        </Box>
+                    </Modal>
+
                 </Box>
             </Box>
             <Box sx={{ display: "inline", border: 2, borderColor: 'black', flexGrow: 1, p: 1, m: 0.2, color: "white", backgroundColor: '#5f0937', maxWidth: '25%' }}>
