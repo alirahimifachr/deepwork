@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Button, Box, Typography, Modal, ListItemText } from '@mui/material';
+import { Button, Box, Typography, Modal, ListItemText, TextField, FormControl, MenuItem, Select } from '@mui/material';
+import { InputLabel } from '@mui/material'
 import { blueGrey, grey, teal, } from "@mui/material/colors";
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Board from "./Board";
 import Card from "./Card";
-import Insertion from './Insertion';
+import { display } from "@mui/system";
 
 
 const Column = () => {
@@ -13,6 +14,7 @@ const Column = () => {
     const [proj, setProj] = useState([]);
     const [sect, setSect] = useState([]);
     const [tas, setTas] = useState([]);
+    const [projectText, setProjectText] = useState('');
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -39,6 +41,17 @@ const Column = () => {
         });
     };
 
+    const addProject = (obj) => {
+        axios.post('http://127.0.0.1:3001/api/project/', {
+            project: obj,
+        }).catch(error => {
+            console.log(error, obj);
+        }).then(function () {
+            setProjectText('');
+            getData();
+        });
+    }
+
     useEffect(() => {
         getData();
         console.log('useEffect getData()');
@@ -53,7 +66,7 @@ const Column = () => {
                         {
                             Object.keys(proj).map((p) => {
                                 return (
-                                    <Box key={Object.values(proj[p])} sx={{ backgroundColor: blueGrey[800], p: 0.2, pl: 2, m: 0.3, border: 1, borderColor: "black", }}>
+                                    <Box key={Object.values(proj[p])} sx={{ backgroundColor: blueGrey[800], p: 0.2, pl: 2, m: 0.3, border: 1, borderColor: "black" }}>
                                         <Typography variant='h6'>{Object.values(proj[p].project)}</Typography>
                                         {
                                             Object.keys(sect).map((s) => {
@@ -87,13 +100,48 @@ const Column = () => {
                         aria-labelledby="modal-modal-title"
                         aria-describedby="modal-modal-description"
                     >
-                        <Box>
-                            <Insertion />
+                        <Box sx={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            width: 600,
+                        }}>
+                            <Box sx={{
+                                border: 5, borderColor: 'black', backgroundColor: 'white', color: 'black', height: 400, p: 3,
+                            }}>
+                                <Box>
+                                    <TextField value={projectText} onChange={(e) => setProjectText(e.target.value)} label="Add Project" color='primary' size="small" type='text' sx={{ backgroundColor: 'white', width: '23vh' }} >
+                                    </TextField>
+                                    <Button size='large' color="primary" onClick={() => addProject(projectText)}>
+                                        <AddIcon /></Button>
+                                </Box>
+                                <Box sx={{}}>
+                                    <FormControl sx={{ width: '23vh', mt: 1 }} size="small" color='secondary'>
+                                        <InputLabel id="pro">Sections</InputLabel>
+                                        <Select labelId="pro" label='Sections'>
+                                            {
+                                                Object.keys(proj).map((p) => {
+                                                    return (
+                                                        <Box keys={Object.keys(proj[p])}>
+                                                            <MenuItem >{Object.values(proj[p].project)}</MenuItem>
+                                                        </Box>
+                                                    )
+                                                })
+                                            }
+                                        </Select>
+                                        <TextField value={null} onChange={(e) => null} label="Add Section" color='secondary' size="small" type='text' sx={{ backgroundColor: 'white', width: '23vh' }} >
+                                        </TextField>
+                                        <Button size='large' color="secondary" onClick={() => null}>
+                                            <AddIcon /></Button>
+                                    </FormControl>
+                                </Box>
+                            </Box>
                         </Box>
                     </Modal>
 
                 </Box>
-            </Box>
+            </Box >
             <Box sx={{ display: "inline", border: 2, borderColor: 'black', flexGrow: 1, p: 1, m: 0.2, color: "white", backgroundColor: '#5f0937', maxWidth: '25%' }}>
                 <Typography variant="h5">Tasks</Typography>
                 <Board id='Tasks'>
