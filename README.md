@@ -1,6 +1,6 @@
 # deepwork
 
-## status: onWork
+## status: paused  
 
 ## installaion
 
@@ -17,3 +17,5 @@ python manage.py runserver 3001
   
 cd ./frontend  
 npm start  
+
+![image](.\deepwork\deepworktemp.png)
